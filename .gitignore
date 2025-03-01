@@ -4,7 +4,7 @@
 .pnp.js
 
 # Build
-/dist
+# Removed /dist to allow committing built files for the library
 
 # Testing
 /coverage

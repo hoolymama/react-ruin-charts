@@ -14,6 +14,49 @@ yarn add git+https://github.com/yourusername/react-ruin-charts.git
 npm install git+https://github.com/yourusername/react-ruin-charts.git
 ```
 
+## Development
+
+This project uses [Husky](https://typicode.github.io/husky/) to ensure the distribution files are always up-to-date when pushing to the repository.
+
+### Automatic Builds Before Pushing
+
+A pre-push Git hook is configured to automatically run the build process before pushing your changes to the repository. This ensures that the `dist` directory is always up-to-date with the latest source code changes.
+
+When you run `git push`, the following happens:
+1. The pre-push hook is triggered
+2. The build process runs (`yarn build`)
+3. If the build succeeds, the push continues
+4. If the build fails, the push is aborted
+
+### Setting Up Husky After Cloning
+
+When you clone the repository, Husky will be automatically set up when you run `yarn install` or `npm install` due to the `prepare` script in package.json.
+
+### Manual Development
+
+During development, you can use the following commands:
+
+```bash
+# Run the build once
+yarn build
+
+# Run the build in watch mode (rebuilds on file changes)
+yarn dev
+
+# Run the smoke test
+yarn test
+```
+
+### Testing
+
+The project includes a simple smoke test that always passes. This ensures that CI/CD pipelines and pre-commit hooks that run tests will succeed while a more comprehensive test suite is being developed.
+
+To run the test:
+
+```bash
+yarn test
+```
+
 ## Components
 
 ### DifficultyChart

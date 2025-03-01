@@ -114,22 +114,8 @@ const calculateRandomRange = (min, max) => {
     return Math.floor(RNG() * (max - min + 1)) + min;
 };
 
-/**
- * Calculates the price per minute
- * @param {number} duration - The duration in seconds
- * @param {number} price - The price
- * @returns {number|null} The price per minute or null if invalid
- */
-const calculatePricePerMin = (duration, price) => {
-    const durationMin = parseInt(duration) / 60;
-    const priceNum = parseFloat(price);
-    if (isNaN(durationMin) || isNaN(priceNum) || durationMin === 0) return null;
-    return parseFloat((priceNum / durationMin).toFixed(2));
-};
-
 export {
     generateRandomColor,
     randomNumberGenerator,
-    calculatePricePerMin,
     calculateRandomRange,
 }; 
