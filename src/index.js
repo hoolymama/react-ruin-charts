@@ -7,7 +7,7 @@ import { useSongDistribution } from './hooks/useSongDistribution';
 
 // Constants and utilities
 import { CHART_DIMENSIONS, TOOLTIP_STYLES, CHART_SCALE, TOOLTIP_OFFSET, SILENCE_POLICIES } from './utils/constants';
-import { generateRandomColor, randomNumberGenerator, calculateRandomRange } from './utils/random';
+import RandomNumber from './utils/random';
 import { formatTime, calculatePricePerMin } from './utils/util';
 
 export {
@@ -26,9 +26,9 @@ export {
     SILENCE_POLICIES,
 
     // Utility functions
-    generateRandomColor,
-    randomNumberGenerator,
     calculatePricePerMin,
-    calculateRandomRange,
-    formatTime
+    formatTime,
+
+    // Random Number Generator
+    RandomNumber,
 }; 

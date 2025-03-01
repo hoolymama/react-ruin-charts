@@ -1,23 +1,17 @@
 /**
- * Smoke test for react-ruin-charts
- * This test will always succeed to ensure the test command passes
+ * Smoke test to verify that the testing framework is working
+ * This is a simple test that always passes
  */
 
-// Simple test function that always returns true
-function alwaysPass() {
-  return true;
-}
+describe('Smoke Test', () => {
+  test('should pass', () => {
+    console.log('Running smoke test...');
 
-// Run the test
-console.log('Running smoke test...');
-const result = alwaysPass();
-console.log(`Smoke test result: ${result ? 'PASS' : 'FAIL'}`);
+    // A simple assertion that always passes
+    const result = true;
 
-// Exit with appropriate code
-if (result) {
-  console.log('All tests passed!');
-  process.exit(0); // Success exit code
-} else {
-  console.error('Tests failed!');
-  process.exit(1); // Error exit code
-} 
+    console.log(`Smoke test result: ${result ? 'PASS' : 'FAIL'}`);
+
+    expect(result).toBe(true);
+  });
+}); 

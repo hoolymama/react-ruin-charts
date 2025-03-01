@@ -160,7 +160,16 @@ function SongDistributionChart({
             .on("mouseout", () => {
                 tooltip.style("visibility", "hidden");
             });
-    }, [songDistribution, totalDuration, maxPricePerMin, dimensions.width, dimensions.height, axisColor, labelColor, showTicks, timeUnit]);
+    }, [songDistribution, 
+        totalDuration, 
+        maxPricePerMin, 
+        dimensions.width, 
+        dimensions.height, 
+        axisColor, 
+        labelColor, 
+        showTicks, 
+        formatTime,
+        timeUnit]);
 
     useEffect(() => {
         if (svgRef.current) {

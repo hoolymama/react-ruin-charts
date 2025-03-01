@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { SILENCE_POLICIES } from "../utils/constants";
-import { randomNumberGenerator } from "../utils/random";
+import RandomNumber from "../utils/random";
 
 /**
  * Creates a packer that places songs along a timeline based on a difficulty curve.
@@ -154,7 +154,7 @@ const DifficultyPacker = (totalDuration, difficultyValues, silencePolicy, random
 
         let bestCoord = { x: 0, y: -1 };
         candidateGaps.forEach((gap) => {
-            const bestCoordInGap = findBestCoordInGap(gap, song);
+            const bestCoordInGap = findBestCoordInGap(song, gap);
             if (bestCoordInGap.y > bestCoord.y) {
                 bestCoord = bestCoordInGap;
             }
@@ -199,15 +199,15 @@ const DifficultyPacker = (totalDuration, difficultyValues, silencePolicy, random
             const resultSongs = [];
 
             if (isConstantDifficulty) {
-                const rng = randomNumberGenerator(randomSeed);
-                const shuffledSongs = [...songs].sort(() => rng() - 0.5);
+                const rng = RandomNumber(randomSeed);
+                const shuffledSongs = [...songs].sort(() => rng.inRange() - 0.5);
                 shuffledSongs.forEach((song, index) => {
                     song.startTime = index === 0 ? 0 : shuffledSongs[index - 1].startTime + shuffledSongs[index - 1].duration;
                 });
                 return applySilencePolicy(shuffledSongs);
             }
 
-            // Not constant difficulty so fit to best place on curve
+
             let gaps = [{ start: 0, end: totalDuration }];
 
             songs.forEach((song) => {
@@ -219,6 +219,8 @@ const DifficultyPacker = (totalDuration, difficultyValues, silencePolicy, random
             });
             // sort based on startTime
             resultSongs.sort((a, b) => a.startTime - b.startTime);
+
+            // console.log(resultSongs);
 
             return applySilencePolicy(resultSongs);
         },
