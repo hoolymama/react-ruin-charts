@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import * as d3 from "d3";
 import PropTypes from "prop-types";
@@ -160,14 +158,14 @@ function SongDistributionChart({
             .on("mouseout", () => {
                 tooltip.style("visibility", "hidden");
             });
-    }, [songDistribution, 
-        totalDuration, 
-        maxPricePerMin, 
-        dimensions.width, 
-        dimensions.height, 
-        axisColor, 
-        labelColor, 
-        showTicks, 
+    }, [songDistribution,
+        totalDuration,
+        maxPricePerMin,
+        dimensions.width,
+        dimensions.height,
+        axisColor,
+        labelColor,
+        showTicks,
         formatTime,
         timeUnit]);
 
