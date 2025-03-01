@@ -129,7 +129,6 @@ function MyComponent() {
   const distributedSongs = useSongDistribution(
     songs,
     600, // totalDuration
-    "seed123", // randomSeed
     difficultyValues,
     SILENCE_POLICIES.DISTRIBUTE
   );
@@ -150,7 +149,6 @@ The songs that make it onto the timeline are the most valuable (per minute) song
 
 * `songs`: The array of songs to distribute
 * `totalDuration`: The total duration in seconds for the timeline
-* `randomSeed`: A string used to ensure consistent random distribution.
 * `difficultyValues`: An array of numbers (0-1) representing the difficulty curve of the timeline
 * `silencePolicy`: Determines how silence is handled between songs. Use the `SILENCE_POLICIES` constant. Options are:
   * `DISTRIBUTE`: Evenly distributes silence between all songs across the timeline
@@ -173,49 +171,8 @@ import {
   // Utility functions
   calculatePricePerMin,
   formatTime
-
-  // Seeded random number generator
-  RandomNumber,
 } from 'react-ruin-charts';
 ```
-
-### RandomNumber
-
-A seedable random number generator that provides deterministic randomness:
-
-```jsx
-import { RandomNumber } from 'react-ruin-charts';
-
-// Create a random number generator with a specific seed
-const rng = RandomNumber('my-seed');
-
-// Create a random number generator with a time-based seed
-// (automatically generated if no seed is provided)
-const autoSeededRng = RandomNumber();
-
-// Generate a random number between 0 and 1
-const randomValue = rng.inRange();
-
-// Generate a random number in a custom range
-const customRange = rng.inRange({ min: 10, max: 20 });
-
-// Generate a random integer
-const randomInt = rng.intInRange({ min: 1, max: 100 });
-
-// Generate a random color
-const randomColor = rng.colorHex();
-
-// Generate a random blue color
-const blueColor = rng.colorHex({ 
-  minHue: 180, 
-  maxHue: 240, 
-  minSaturation: 0.8 
-});
-```
-
-When no seed is provided, a seed string is automatically generated based on the current time (to the millisecond). This provides non-deterministic randomness when desired, while still allowing for deterministic sequences when a specific seed is provided.
-
-
 
 ## Development
 
@@ -252,15 +209,7 @@ yarn test
 
 ### Testing
 
-The project uses Jest for testing. Tests are located in the `tests` directory and include:
-
-- Unit tests for the `RandomNumber` utility, demonstrating:
-  - Successive calls produce different values
-  - The same seed produces the same sequence of values
-  - Different seeds produce different sequences
-  - Custom parameters work correctly
-
-To run the tests:
+The project uses Jest for testing. Tests are located in the `tests` directory:
 
 ```bash
 yarn test

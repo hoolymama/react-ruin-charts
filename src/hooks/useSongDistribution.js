@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { SILENCE_POLICIES } from "../utils/constants";
-import RandomNumber from "../utils/random";
 
 /**
  * Creates a packer that places songs along a timeline based on a difficulty curve.
@@ -21,7 +20,7 @@ import RandomNumber from "../utils/random";
  *                                          the difficulty curve over the timeline
  * @returns {Object} Packer object with pack() method
  */
-const DifficultyPacker = (totalDuration, difficultyValues, silencePolicy, randomSeed) => {
+const DifficultyPacker = (totalDuration, difficultyValues, silencePolicy) => {
     // Private variables
     const spacing = totalDuration / (difficultyValues.length - 1);
 
@@ -195,21 +194,8 @@ const DifficultyPacker = (totalDuration, difficultyValues, silencePolicy, random
     // Public interface
     return {
         pack: (songs) => {
-            const isConstantDifficulty = difficultyValues.every((value, index, array) => value === array[0]);
             const resultSongs = [];
-
-            if (isConstantDifficulty) {
-                const rng = RandomNumber(randomSeed);
-                const shuffledSongs = [...songs].sort(() => rng.inRange() - 0.5);
-                shuffledSongs.forEach((song, index) => {
-                    song.startTime = index === 0 ? 0 : shuffledSongs[index - 1].startTime + shuffledSongs[index - 1].duration;
-                });
-                return applySilencePolicy(shuffledSongs);
-            }
-
-
             let gaps = [{ start: 0, end: totalDuration }];
-
             songs.forEach((song) => {
                 const placedSong = placeSong(song, gaps);
                 if (placedSong) {
@@ -219,9 +205,6 @@ const DifficultyPacker = (totalDuration, difficultyValues, silencePolicy, random
             });
             // sort based on startTime
             resultSongs.sort((a, b) => a.startTime - b.startTime);
-
-            // console.log(resultSongs);
-
             return applySilencePolicy(resultSongs);
         },
     };
@@ -234,14 +217,12 @@ const DifficultyPacker = (totalDuration, difficultyValues, silencePolicy, random
  * @param {number} totalDuration - Total duration of the timeline
  * @param {string} packingMethod - The method to use for packing songs
  * @param {string} packingPriority - The priority to use for sorting
- * @param {number} randomSeed - Seed for random number generator
  * @param {Array<number>} difficultyValues - Array of difficulty values
  * @returns {Array} Array of song objects with added startTime properties
  */
 export const useSongDistribution = (
     songs,
     totalDuration,
-    randomSeed,
     difficultyValues,
     silencePolicy
 ) => {
@@ -254,12 +235,11 @@ export const useSongDistribution = (
             originalIndex: index,
         })).sort((a, b) => b.pricePerMin - a.pricePerMin);
 
-        const packer = DifficultyPacker(totalDuration, difficultyValues, silencePolicy, randomSeed);
+        const packer = DifficultyPacker(totalDuration, difficultyValues, silencePolicy);
         return packer.pack(songsToProcess);
     }, [
         songs,
         totalDuration,
-        randomSeed,
         difficultyValues,
         silencePolicy
     ]);
